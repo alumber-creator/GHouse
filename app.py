@@ -2,11 +2,15 @@ import logging
 
 from flask import Flask
 from database import Database as db
+from tools.generation import Generate
+
 app = Flask(__name__)
 
 
 @app.route('/sensors', methods=['GET'])
 def sensors_get():  # put application's code here
+    gen = Generate()
+    gen.generate_data(100)
     return db.get_sensors()
 
 @app.route('/sensors/<sensor>', methods=['GET'])
@@ -19,4 +23,4 @@ def status_get():
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
-    app.run()
+    app.run(host='0.0.0.0', port=5000, debug=True)
